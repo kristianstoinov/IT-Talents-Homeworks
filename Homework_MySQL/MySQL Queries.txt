@@ -1,0 +1,172 @@
+//Само да кажа, това е правено с Xampp, понеже Workbench-a е прекалено бъгав. Моля кажи дали ще може да се използва XAmpp на контролното :)
+
+
+
+
+1.SELECT * FROM hr.departments
+
+
+
+2.SELECT department_name FROM hr.departments
+
+
+
+
+3.SELECT salary/12 as 'monthly' , salary/12/20 as 'daily' ,salary/12/20/8 as 'hourly' FROM hr.employees ;
+
+
+
+
+4.SELECT first_name , last_name,CONCAT(email, '@mail.somecompany.com') as 'Full email address' from hr.employees;
+
+
+
+
+5.SELECT DISTINCT salary  from hr.employees;
+
+
+
+
+6.SELECT department_name from departments UNION SELECT country_name from countries UNION SELECT region_name from regions UNION SELECT city from locations
+
+
+
+
+
+7.SELECT * FROM hr.employees where job_id='AC_MGR';
+
+
+
+
+
+8.SELECT * FROM hr.employees where first_name LIKE 'Sa%';
+
+
+
+
+9.SELECT * FROM hr.employees where last_name LIKE '%ei%';
+
+
+
+
+
+10.SELECT first_name,last_name FROM hr.employees where salary BETWEEN 3000 and 5000;
+
+
+
+
+
+11.SELECT first_name,last_name,salary from hr.employees WHERE salary>=2000 and salary<=5000 UNION SELECT first_name,last_name,salary from hr.employees where salary>=10000 and salary<=15000
+
+
+
+12.SELECT first_name,last_name FROM hr.employees where salary IN (2500,4000,5000);
+
+
+
+
+
+13.SELECT location_id,city FROM hr.locations WHERE state_province IS NULL and postal_code IS NULL;
+
+
+
+
+
+14.SELECT first_name,last_name from hr.employees WHERE salary>10000  ORDER by salary DESC;
+
+
+
+
+
+15.SELECT first_name,last_name,hire_date from hr.employees ORDER BY hire_date LIMIT 10
+
+
+
+
+
+16.SELECT department_id,department_name,location_id,city FROM
+hr.departments natural join hr.locations;
+
+
+
+
+
+17.SELECT dp.department_id,dp.department_name,l.location_id,l.city FROM hr.departments dp join hr.locations l USING (location_id)
+
+
+
+
+
+18.SELECT dp.department_id,dp.department_name,l.location_id,l.city FROM hr.departments dp inner join hr.locations l on(dp.location_id=l.location_id)
+
+
+
+
+
+
+19.SELECT dp.department_id,CONCAT(e.first_name,' ',e.last_name) as 'Manager name' ,dp.department_name,l.location_id,l.city FROM hr.departments dp inner join hr.locations l on(dp.location_id=l.location_id) inner JOIN hr.employees e ON (dp.manager_id=e.manager_id)
+
+
+
+
+
+
+20.SELECT dp.department_name,l.city FROM hr.departments dp RIGHT OUTER join hr.locations l on (dp.location_id=l.location_id)
+
+
+
+
+
+21.SELECT dp.department_name,l.city FROM hr.departments dp LEFT OUTER join hr.locations l on (dp.location_id=l.location_id)
+
+
+
+
+
+22.SELECT dp.department_name, l.city FROM locations l, departments dp WHERE dp.location_id = l.location_id
+
+
+
+
+
+23.SELECT CONCAT(e.first_name,' ',e.last_name) as 'Manager name' ,dp.department_name from hr.departments dp join hr.employees e on(dp.manager_id=e.manager_id)
+
+
+
+
+
+24.SELECT CONCAT(e.first_name,' ',e.last_name) as 'Manager name' ,dp.department_name,l.city from hr.departments dp join hr.employees e on(dp.manager_id=e.manager_id) join hr.locations l on (dp.location_id=l.location_id);
+
+
+
+
+25.SELECT e.first_name,e.last_name from hr.employees e join hr.departments dp ON (dp.department_id=e.department_id) WHERE
+(dp.department_name='Sales' OR dp.department_name='Finance') AND (e.hire_date BETWEEN '1995-00-00'  and '2000-00-00');
+
+
+
+26.SELECT e.first_name,e.last_name from hr.employees e join hr.departments dp ON (dp.department_id=e.department_id)
+join hr.job_history jh on (jh.employee_id=e.employee_id) WHERE
+dp.department_name='Sales';
+
+
+
+27.select concat(e.first_name,' ',e.last_name) as Employee,Concat(m.first_name,' ',m.last_name) as Manager from 
+hr.employees e join hr.employees m on (e.manager_id=m.employee_id)
+
+
+
+
+28.select e.first_name,m.last_name from hr.employees e CROSS join hr.employees m on(e.employee_id=m.employee_id)
+
+
+
+29.select e.first_name,e.last_name,dp.department_name,e.job_id,l.city,c.country_name,r.region_name from hr.employees e join hr.departments dp on (e.department_id=dp.department_id) join hr.locations l on (dp.location_id=l.location_id) JOIN hr.countries c on (l.country_id=c.country_id) JOIN hr.regions r on (c.region_id=r.region_id)
+
+
+
+30.select e.first_name,e.last_name,dp.department_name,if(concat(m.first_name, ' ', m.last_name) IS null, 'No manager',concat(m.first_name, ' ', m.last_name)) as 'Manager' ,e.job_id,l.city,c.country_name,r.region_name from hr.employees e join hr.employees m on(e.manager_id=m.employee_id) join hr.departments dp on (e.department_id=dp.department_id) join hr.locations l on (dp.location_id=l.location_id) JOIN hr.countries c on (l.country_id=c.country_id) JOIN hr.regions r on (c.region_id=r.region_id) 
+
+
+//Mai ne e suvsem vqrno 
+31.Select DISTINCT e.first_name,e.last_name, j.job_title from hr.job_history jh join hr.job_history mh on (jh.employee_id=mh.employee_id ) join hr.employees e on (e.employee_id=jh.employee_id) join hr.jobs j on (jh.job_id=j.job_id) where mh.job_id='AC_ACCOUNT' OR mh.job_id='AC_MGR'

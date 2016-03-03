@@ -1,10 +1,19 @@
-package First_HW;
+
 
 import java.util.ArrayList;
 
+
+
+
 public class Demo {
+	private static final int PERIOD = 32;
+	private static final double DEPOSIT_RANDOMIZER = ((double)(Math.random() * (1 - 0.8) + 0.8));
+	
+	
 public static void main(String[] args) {
+	
 	ArrayList<BankProduct> bankProducts=new ArrayList<BankProduct>();
+	Bank bnb=new Bank("BNB", "Sofia",2000000,bankProducts);
 	
 	Deposit shortDeposit=new Deposit("Short Deposit", 3.00, 3);
 	Deposit shortDeposit1=new Deposit("Short Deposit1", 3.00, 3);
@@ -31,10 +40,35 @@ public static void main(String[] args) {
 	Credit consumerCredit3=new Credit("Consumer Credit3", 10.00, 36);
 	Credit consumerCredit4=new Credit("Consumer Credit4", 10.00, 36);
 	
+//adding products to the bank
+	
+	bnb.getBankProducts().add(shortDeposit);
+	bnb.getBankProducts().add(shortDeposit1);
+	bnb.getBankProducts().add(shortDeposit2);
+	bnb.getBankProducts().add(shortDeposit3);
+	
+	bnb.getBankProducts().add(longDeposit);
+	bnb.getBankProducts().add(longDeposit1);
+	bnb.getBankProducts().add(longDeposit2);
+	bnb.getBankProducts().add(longDeposit3);
+	bnb.getBankProducts().add(longDeposit4);
+	bnb.getBankProducts().add(longDeposit5);
+	
+	
+	bnb.getBankProducts().add(homeCredit);
+	bnb.getBankProducts().add(homeCredit1);
+	bnb.getBankProducts().add(homeCredit2);
+	bnb.getBankProducts().add(homeCredit3);
+	bnb.getBankProducts().add(homeCredit4);
+	
+	bnb.getBankProducts().add(consumerCredit);
+	bnb.getBankProducts().add(consumerCredit1);
+	bnb.getBankProducts().add(consumerCredit2);
+	bnb.getBankProducts().add(consumerCredit3);
+	bnb.getBankProducts().add(consumerCredit4);
 	
 	
 	
-	Bank bnb=new Bank("BNB", "Sofia",2000000,bankProducts);
 	
 	
 	Client[] clients=new Client[10];
@@ -67,74 +101,47 @@ for(int i=0;i<clients.length;i++){
 }
 	
 	//List of Deposits
-	bnb.receiveDeposit((8/10)*(pena.getCash()));
-	pena.makeDeposit((8/10)*(pena.getCash()), 32, longDeposit);
-	
-	bnb.receiveDeposit((8/10)*(minka.getCash()));
-	minka.makeDeposit((8/10)*(minka.getCash()), 32, longDeposit1);
-
-	bnb.receiveDeposit((9/10)*petio.getCash());
-	petio.makeDeposit((9/10)*petio.getCash(), 32, longDeposit2);
-	
-	bnb.receiveDeposit(ivan.getCash());
-	ivan.makeDeposit(ivan.getCash(), 32, shortDeposit);
-	
-	bnb.receiveDeposit((8/10)*kris.getCash());
-	kris.makeDeposit((8/10)*kris.getCash(), 32, longDeposit3);
-	
-	bnb.receiveDeposit(mitko.getCash());
-	mitko.makeDeposit(mitko.getCash(), 32, shortDeposit1);
-	
-	bnb.receiveDeposit((9/10)*stamat.getCash());
-	stamat.makeDeposit((9/10)*stamat.getCash(), 32, longDeposit4);
-	
-	bnb.receiveDeposit(spas.getCash());
-	spas.makeDeposit(spas.getCash(), 32, shortDeposit2);
-	
-	bnb.receiveDeposit((8/10)*minio.getCash());
-	minio.makeDeposit((8/10)*minio.getCash(), 32, shortDeposit3);
-	
-	bnb.receiveDeposit(penio.getCash());
-	penio.makeDeposit(penio.getCash(), 32, longDeposit5);
-	
+ clientMakesDeposit(pena, longDeposit, bnb);
+ clientMakesDeposit(minka, longDeposit1, bnb);
+ clientMakesDeposit(petio, longDeposit2, bnb);
+ clientMakesDeposit(ivan, shortDeposit, bnb);
+ clientMakesDeposit(kris, longDeposit3, bnb);
+ clientMakesDeposit(stamat, longDeposit4, bnb);
+ clientMakesDeposit(mitko, shortDeposit1, bnb);
+ clientMakesDeposit(spas, shortDeposit, bnb);
+ clientMakesDeposit(minio, shortDeposit, bnb);
+ clientMakesDeposit(penio, longDeposit5, bnb);
+ 
 
 	
 	System.out.println("The bank reserve of BNB is : "  + bnb.getBankReserve());
 	
 	
-	//List of Credits
-	pena.requestCredit(10000, 32, homeCredit);
-	bnb.grantCredit(10000, 32, pena);
+	clientRequestsCredit(10000, 32, homeCredit, pena, bnb);
+	clientRequestsCredit(10000, 32, homeCredit1, minka, bnb);
+	clientRequestsCredit(10000, 32, homeCredit2, petio, bnb);
+	clientRequestsCredit(10000, 32, homeCredit3, ivan, bnb);
+	clientRequestsCredit(10000, 32, homeCredit4, kris, bnb);
+	clientRequestsCredit(10000, 32, consumerCredit, mitko, bnb);
+	clientRequestsCredit(10000, 32, consumerCredit1, stamat, bnb);
+	clientRequestsCredit(10000, 32, consumerCredit2, spas, bnb);
+	clientRequestsCredit(10000, 32, consumerCredit3, minio, bnb);
+	clientRequestsCredit(10000, 32, consumerCredit4, penio, bnb);
 	
-	minka.requestCredit(10000, 32, homeCredit1);
-	bnb.grantCredit(10000, 32, minka);
-	
-	petio.requestCredit(10000, 32, homeCredit2);
-	bnb.grantCredit(10000, 32, petio);
-	
-	ivan.requestCredit(10000, 32, homeCredit3);
-	bnb.grantCredit(10000, 32, ivan);
-	
-	kris.requestCredit(10000, 32, homeCredit4);
-	bnb.grantCredit(10000, 32, kris);
-	
-	mitko.requestCredit(10000, 32, consumerCredit);
-	bnb.grantCredit(10000, 32, mitko);
-	
-	stamat.requestCredit(10000, 32, consumerCredit1);
-	bnb.grantCredit(10000, 32, stamat);
-	
-	
-	spas.requestCredit(10000, 32, consumerCredit2);
-	bnb.grantCredit(10000, 32, spas);
-	
-	minio.requestCredit(10000, 32, consumerCredit3);
-	bnb.grantCredit(10000, 32, minio);
-	
-	penio.requestCredit(10000, 32, consumerCredit4);
-	bnb.grantCredit(10000, 32, penio);
-	
-	
+	System.out.println("The bank reserve of BNB is : "  + bnb.getBankReserve());
 	
 }
+public static void clientMakesDeposit(Client client,BankProduct deposit,Bank bank){
+	
+	double currentSumOfDeposit=((double)client.getCash()*DEPOSIT_RANDOMIZER);
+	client.makeDeposit((double)currentSumOfDeposit, PERIOD, deposit);
+	bank.receiveDeposit((double)currentSumOfDeposit);
+	
+}
+
+public static void clientRequestsCredit(int sum,int period,Credit credit,Client client,Bank bank){
+	client.requestCredit(sum, period, credit);
+	bank.grantCredit(sum, period, client);
+}
+
 }

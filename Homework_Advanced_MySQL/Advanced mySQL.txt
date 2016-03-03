@@ -1,0 +1,176 @@
+1.Select AVG(e.salary) ,dp.department_name from hr.employees e join hr.departments dp on(e.department_id=dp.department_id) WHERE dp.department_name = 'Sales';
+
+
+2.Select COUNT(e.employee_id) ,dp.department_name from hr.employees e join hr.departments dp on(e.department_id=dp.department_id) WHERE dp.department_name = 'Sales';
+
+
+3.Select COUNT(l.location_id) from hr.locations l join hr.departments dp on (dp.location_id=l.location_id)
+
+
+4.SELECT COUNT(dp.department_id) from hr.departments dp where dp.manager_id is not null;
+
+
+5.SELECT COUNT(dp.department_id) from hr.departments dp where dp.manager_id is null;
+
+
+6.SELECT dp.department_name, AVG(e.salary) from hr.departments dp join hr.employees e  on (dp.department_id=e.department_id) GROUP by dp.department_name;
+
+
+
+7.SELECT dp.department_name, COUNT(e.employee_id),first_name,last_name,l.city from hr.departments dp join hr.employees e  on (dp.department_id=e.department_id) 
+join hr.locations l ON (dp.location_id=l.location_id)
+GROUP by dp.department_name;
+
+
+
+8.SELECT dp.department_name,m.first_name,m.last_name,count(m.employee_id) from hr.employees e join hr.employees m on (e.manager_id=m.employee_id) join hr.departments dp on (m.department_id=dp.department_id) group by department_name;
+
+
+
+
+9.SELECT dp.department_name,m.first_name,m.last_name,count(m.employee_id),l.city  from hr.employees e join hr.employees m on (e.manager_id=m.employee_id) join hr.departments dp on (m.department_id=dp.department_id) join hr.locations l on (l.location_id=dp.location_id) group by department_name having count(m.employee_id)=5;
+
+
+
+
+10.SELECT SUM(e.employee_id),r.region_name from hr.employees e join hr.departments dp on (e.department_id=dp.department_id) join hr.locations l on (l.location_id=dp.location_id) join hr.countries c on(l.country_id=c.country_id) join hr.regions r ON(c.region_id=r.region_id) group by r.region_name
+
+
+
+11.Select dp.department_name,j.job_title,SUM(e.employee_id) from hr.employees e join hr.departments dp on(e.department_id=dp.department_id) join hr.jobs j on(e.job_id=j.job_id)
+group by j.job_title;
+
+
+
+
+12.//RECHECK
+
+
+
+
+
+13.//RECHECK
+
+
+
+
+14.Select dp.department_name,MAX(e.salary),e.first_name,e.last_name from hr.employees e join hr.departments dp ON (e.department_id=dp.department_id) group by dp.department_name
+
+
+
+
+15.select e.first_name,e.last_name from hr.employees e where CHAR_LENGTH(e.last_name)=5;
+
+
+
+16.select e.first_name,e.last_name from hr.employees e  where substr(e.first_name,1,1) like substr(e.last_name,1,1);
+
+
+
+17.select dp.department_name,if(dp.manager_id IS null ,'No manager',concat(m.first_name, ' ', m.last_name)) as 'Manager' from hr.employees m right outer join hr.departments dp on (m.employee_id=dp.manager_id)
+
+
+
+
+//RECHECK
+18.SELECT m.first_name,m.last_name,COALESCE((COUNT(m.employee_id)),'just an employee') as ' employees' from hr.employees e right outer join hr.employees m on (e.manager_id=m.employee_id) group by m.first_name
+
+
+
+19.select Date_Format(now(),'%h:%i:%s %d-%m-%Y') as 'current date' , Date_format(Date_add(now(),Interval 7 DAY),'%h:%i:%s %d-%m-%Y') as 'date after a week'
+
+
+20.
+CREATE TABLE users_1( username VarCHAR(20) PRIMARY KEY, password VarCHAR(10) not null, fullname VArCHAR(30) , last_login_time Date )
+
+create trigger trigger_default_name
+before insert on users
+for each row
+set new.fullname = 'Mara Qkata';
+
+
+
+21.CREATE VIEW view_users AS
+SELECT u.last_login_time from hr.users u WHERE u.last_login_time is not null;
+
+
+
+22.create table groups( group_id Int primary key AUTO_INCREMENT,name VARCHAR(20) Not Null )
+
+
+
+23/24.
+Alter table users add group_id INT;
+insert into users(username,password,fullname,group_id,last_login_time)
+VALUES (
+    'Mincho','1234','Mincho Karaivanov',1,now());
+
+insert into users(username,password,fullname,group_id,last_login_time)
+VALUES (
+    'Minka','11312234','Minka Karaivanova',2,now());
+
+insert into users(username,password,fullname,group_id,last_login_time) VALUES ( 'Yoldo','12213234','Yoldo Yoldov',3,now());
+
+
+
+ALTER TABLE hr.users 
+add CONSTRAINT fk_groups
+ADD FOREIGN KEY (group_id)
+REFERENCES hr.groups(group_Id)
+
+
+
+25/26
+INSERT into hr.users (fullname)
+SELECT concat(first_name,' ',last_name) from hr.employees;
+
+INSERT into hr.users(username)
+select email from hr.employees
+
+
+
+
+28.DELETE FROM users where password is null;
+
+
+29.Select * from hr.users u where u.username LIKE 's%'
+
+
+
+30.create table workhours(
+    date Date not null ,
+    task Varchar(20) not null,
+    hours int(10) not null,
+    comments varchar(30) null)
+
+
+
+31.Alter table workhours 
+add FOREIGN key (employee_id)
+REFERENCES workhours(employee_id);
+
+
+
+32.INSERT INTO workhours(task,date,hours,comments,employee_id)
+VALUES('Repeat',now(),1,null,203);
+
+INSERT INTO workhours(task,date,hours,comments,employee_id)
+VALUES('Eat',now(),2,null,102);
+
+INSERT INTO workhours(task,date,hours,comments,employee_id)
+VALUES('Sleep',now(),8,null,118);
+
+INSERT INTO workhours(task,date,hours,comments,employee_id)
+VALUES('Rave',now(),5,null,112);
+
+
+
+
+33.SELECT AVG(w.hours) as 'average hours',c.country_name from hr.workhours w join hr.employees e on(w.employee_id=e.employee_id) join hr.departments dp on(e.department_id=dp.department_id)  join hr.locations l on (dp.location_id=l.location_id) join hr.countries c on (l.country_id=c.country_id) GROUP BY c.country_name;
+
+
+
+34.SELECT dp.department_name FROM hr.departments dp JOIN hr.employees e on(dp.department_id=e.department_id) join hr.workhours w ON(w.employee_id=e.employee_id) where w.hours>8
+
+
+35. WTF?! How?

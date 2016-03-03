@@ -1,4 +1,4 @@
-package First_HW;
+
 
 public abstract class BankProduct {
 
@@ -30,12 +30,14 @@ public abstract class BankProduct {
 		return name;
 	}
 	void setName(String name) {
+		if(name!=null)
 		this.name = name;
 	}
 	String getType() {
 		return type;
 	}
 	void setType(String type) {
+		if(type!=null)
 		this.type = type;
 	}
 	double getYearlyInterest() {
@@ -61,6 +63,7 @@ public abstract class BankProduct {
 	}
 
 	void setProductClient(Client productClient) {
+		if(productClient!=null)
 		this.productClient = productClient;
 	}
 

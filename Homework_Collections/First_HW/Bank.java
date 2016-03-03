@@ -1,12 +1,16 @@
-package First_HW;
+
 
 import java.util.ArrayList;
 
 public class Bank {
+	
+	private static final double NUM= 0.9f;
+	private static final double OTHER_NUM=0.5f;
+	
 	private String name;
 	private String address;
 	private ArrayList<BankProduct> bankProducts;
-	private int bankReserve;
+	private double bankReserve;
 	private ArrayList<Client> theClientsOfTheBank;
 
 	public Bank(String name, String address, int bankReserve,
@@ -23,8 +27,10 @@ public class Bank {
 		}
 	}
 
-	public void receiveDeposit(int sum) {
-		this.setBankReserve(((this.getBankReserve()) + ((9 / 10) * sum)));
+	public void receiveDeposit(double d) {
+		double wtf =(NUM*d);
+		double newValue=((this.getBankReserve()) + (wtf));
+		this.setBankReserve(newValue);
 	}
 
 	public void payInterestOfDeposits() {
@@ -57,13 +63,13 @@ public class Bank {
 				}
 			}
 		}
-		if ((paymentsForAllCreditsMonthly > (client.getSalary() * (5 / 10)))
+		if ((paymentsForAllCreditsMonthly > ((client.getSalary()) * (OTHER_NUM)))
 				&& (sum > this.getBankReserve())) {
 			System.out.println("Sorry , we can't grant you this credit");
 			return false;
 		} else {
-			System.out.println("Credit granted!");
-			this.setBankReserve(this.getBankReserve() - sum);
+			
+			this.setBankReserve((this.getBankReserve()) - (sum));
 			return true;
 
 		}
@@ -92,19 +98,20 @@ public class Bank {
 	}
 
 	ArrayList<BankProduct> getBankProducts() {
-		return bankProducts;
+		return this.bankProducts;
 	}
 
 	void setBankProducts(ArrayList<BankProduct> bankProducts) {
 		this.bankProducts = bankProducts;
 	}
 
-	int getBankReserve() {
-		return bankReserve;
+	double getBankReserve() {
+		return this.bankReserve;
 	}
 
-	void setBankReserve(int bankReserve) {
-		this.bankReserve = bankReserve;
+	void setBankReserve(double d) {
+		if(d>0)
+		this.bankReserve =  d;
 	}
 
 	ArrayList<Client> getTheClientsOfTheBank() {

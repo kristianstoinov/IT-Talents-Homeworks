@@ -1,4 +1,4 @@
-package First_HW;
+
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ public class Client {
 
 	private String name;
 	private String address;
-	private int cash;
+	private double cash;
 	private int salary;
 	private ArrayList<Deposit> listOfDeposits;
 	private ArrayList<Credit> listOfCredits;
@@ -25,44 +25,37 @@ public class Client {
 
 	}
 
-	public void makeDeposit(int sum, int period, Deposit deposit) {
-		if (sum > 0) {
+	public void makeDeposit(double currentSumOfDeposit, int period, BankProduct deposit) {
+		if(deposit!=null){
+		if (currentSumOfDeposit > 0) {
 			if (period >= 1 && period <= 60) {
 				if (this.getCash() > 0) {
-					this.setCash(getCash() - sum);
-					if(deposit!=null){
-						if(this.getListOfDeposits()!=null){
-						this.getListOfDeposits().add(deposit);
-						}else{
-							ArrayList<Deposit> listOfDeposits=new ArrayList<Deposit>();
-							this.setListOfDeposits(listOfDeposits);
-							this.getListOfDeposits().add(deposit);
-						}
+					this.setCash(this.getCash() - currentSumOfDeposit);
+					if(this.getListOfDeposits()!=null){
+					this.getListOfDeposits().add((Deposit) deposit);
 					}else{
-						System.out.println("Error");
+						ArrayList<Deposit> listOfDeposits=new ArrayList<Deposit>();
+						this.setListOfDeposits(listOfDeposits);
+						this.getListOfDeposits().add((Deposit) deposit);
 					}
-					
 					this.getMyBank().getBankProducts().add(deposit);
 					deposit.setProductPeriod(period);
-					deposit.setCurrentMoney(sum);
+					deposit.setCurrentMoney(currentSumOfDeposit);
 					System.out
 							.println("You have successfully created a deposit");
 //+Money.recieveDeposit
-				}else{
-					System.out.println("Error1");
 				}
-			}else{
-				System.out.println("Error2");
 			}
-		}else{
-			System.out.println("Error3");
+		}
 		}
 	}
 
 	public void requestCredit(int sum, int period, Credit credit) {
+		if(credit!=null){
 		if (sum > 0) {
 			if (period >= 1 && period <= 60) {
 				if (this.getMyBank().grantCredit(sum, period, this) == true) {
+					System.out.println("The bank has granted " + this.getName() + " a credit!");
 					this.setCash(getCash() + sum);
 					//+Bank.grantCredit
 					this.getListOfCredits().add(credit);
@@ -75,12 +68,15 @@ public class Client {
 
 			}
 		}
+		}
 	}
 
 	public void returnCredit(int sum, Credit credit) {
+		if(credit!=null){
 		credit.setCurrentMoney(credit.getCurrentMoney() - sum);
 		System.out.println("Money left to pay this credit: "
 				+ credit.getCurrentMoney());
+		}
 	}
 
 	String getName() {
@@ -88,6 +84,7 @@ public class Client {
 	}
 
 	void setName(String name) {
+		if(name!=null)
 		this.name = name;
 	}
 
@@ -96,15 +93,16 @@ public class Client {
 	}
 
 	void setAddress(String address) {
+		if(address!=null)
 		this.address = address;
 	}
 
-	int getCash() {
-		return cash;
+	double getCash() {
+		return this.cash;
 	}
 
-	void setCash(int cash) {
-		this.cash = cash;
+	void setCash(double d) {
+		this.cash = d;
 	}
 
 	int getSalary() {
@@ -128,6 +126,7 @@ public class Client {
 	}
 
 	void setMyBank(Bank myBank) {
+		if(myBank!=null)
 		this.myBank = myBank;
 	}
 	void setListOfDeposits(ArrayList<Deposit> listOfDeposits) {
